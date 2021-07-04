@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+{
+	int n, m, memory_gremlin, l, r;
+	ifstream fin("input.txt");
+
+	fin >> n;
+	vector<int> nums(n);
+	vector<int> prefltr(n + 1);
+	vector<int> prefrtl(n + 1);
+
+	prefltr[0] = 0;
+	prefrtl[0] = 0;
+	for (int i = 0; i < n; i++) fin >> memory_gremlin >> nums[i];
+	fin >> m;
+	vector<int> tracks(m);
+	for (int i = 1; i < nums.size(); i++) {
+		prefltr[i] = prefltr[i - 1] + max(nums[i] - nums[i - 1], 0);
+		prefrtl[nums.size() - i - 1] = prefrtl[nums.size() - i] + max(nums[nums.size() - i - 1] - nums[nums.size() - i], 0);
+	}
+	
+	for (int i = 0; i < m; i++)
+	{
+		int res;
+
+		fin >> l >> r;
+		
+		if (l < r)
+			res = prefltr[r - 1] - prefltr[l - 1];
+		else
+			res = prefrtl[r - 1] - prefrtl[l - 1];
+
+		cout << res << endl;
+
+	}
+}
