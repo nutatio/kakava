@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+	int n, k;
+	ifstream fin("input.txt");
+	fin >> n >> k;
+	vector <int> nums(n);
+
+	for (int i = 0; i < n; i++) fin >> nums[i];
+	int l = 0;
+	int s = 0;
+	int res = 0;
+	for (int r = 0; r < n; r++ ) {
+		s += nums[r];
+		while (s>k){
+			s -= nums[l];
+			l++;
+		}
+		if (s == k)res++;
+	}
+	cout << res;
+}
